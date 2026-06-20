@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Review Your Receipt | Rohini's Spice Lab</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; margin: 40px; background-color: #f8f9fa; }
+        .receipt-box { max-width: 500px; background: #fff; padding: 30px; margin: 0 auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #d9534f; }
+        .brand-header { text-align: center; margin-bottom: 5px; color: #2c3e50; font-size: 1.4em; font-weight: bold; }
+        h2 { text-align: center; color: #7f8c8d; border-bottom: 2px dashed #ddd; padding-bottom: 15px; margin-top: 5px; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; }
+        .line-item { display: flex; justify-content: space-between; margin: 15px 0; font-size: 1.05em; }
+        .totals { border-top: 1px dashed #ccc; margin-top: 20px; padding-top: 15px; }
+        .final-row { font-size: 1.3em; font-weight: bold; color: #2e7d32; border-top: 2px solid #2e7d32; padding-top: 10px; margin-top: 10px; }
+        .btn-order { display: block; text-align: center; margin-top: 25px; background: #28a745; color: white; border: none; width: 100%; padding: 14px; border-radius: 6px; font-size: 1.15em; font-weight: bold; cursor: pointer; box-shadow: 0 3px 6px rgba(40,167,69,0.2); }
+        .btn-order:hover { background: #218838; }
+        .btn-back { display: block; text-align: center; margin-top: 15px; color: #d9534f; text-decoration: none; font-weight: 500; }
+        .btn-back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="receipt-box">
+        <!-- 🌟 १. पावतीवर तुमच्या ब्रँडचे नाव सेट केले -->
+        <div class="brand-header">🔮 ROHINI'S SECRET SPICE LAB 🍽️</div>
+        <h2>Final Order Bill</h2>
+        
+        {% if not items %}
+            <p style="text-align: center; color: #777; margin: 30px 0;">तुमची ऑर्डर पिशवी रिकामी आहे!</p>
+        {% else %}
+            {% for item in items %}
+            <div class="line-item">
+                <span>{{ item.quantity }}x {{ item.name }} <small style="color: #888;">(₹{{ item.price_per_unit }} प्रत्येक)</small></span>
+                <!-- 🌟 २. डॉलर काढून इथे ₹ केले -->
+                <span>₹{{ "%.2f"|format(item.total_price) }}</span>
+            </div>
+            {% endfor %}
+            
+            <div class="totals">
+                <!-- 🌟 ३. सर्व ठिकाणी चलनाचे चिन्ह ₹ मध्ये बदलले -->
+                <div class="line-item"><span>Items Subtotal:</span> <span>₹{{ "%.2f"|format(subtotal) }}</span></div>
+                <div class="line-item"><span>Estimated Tax (8%):</span> <span>₹{{ "%.2f"|format(tax) }}</span></div>
+                <div class="line-item final-row"><span>Grand Total:</span> <span>₹{{ "%.2f"|format(total) }}</span></div>
+            </div>
+            
+            <!-- 🌟 ४. ऑर्डर प्लेस केल्यावर मराठीत सुंदर मेसेज दिसेल -->
+            <button onclick="alert('🎉 तुमची ऑर्डर यशस्वीरित्या स्वीकारली आहे! किचनमध्ये जेवण बनवणे सुरू झाले आहे! 🍳')" class="btn-order">Place Order Now</button>
+        {% endif %}
+        
+        <a href="/" class="btn-back">← Back to Menu Card</a>
+    </div>
+
+</body>
+</html>

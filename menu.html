@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ROHINI'S SECRET SPICE LAB</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 40px; background-color: #f8f9fa; color: #333; }
+        h1 { color: #d9534f; margin-bottom: 5px; }
+        .slogan { color: #666; font-style: italic; margin-top: 0; margin-bottom: 30px; font-size: 1.1em; }
+        .menu-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 10px; }
+        .menu-card { background: white; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
+        .price { font-weight: bold; color: #2e7d32; font-size: 1.2em; margin: 10px 0; }
+        .btn { background-color: #d9534f; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; width: 100%; font-weight: bold; }
+        .btn:hover { background-color: #c9302c; }
+        .cart-status { background: #e9ecef; padding: 15px; border-radius: 6px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .category-header { grid-column: 1 / -1; margin-top: 30px; margin-bottom: 10px; }
+        .category-header h2 { color: #2c3e50; border-bottom: 2px dashed #bdc3c7; padding-bottom: 8px; }
+    </style>
+</head>
+<body>
+
+    <h1>🔮 ROHINI'S SECRET SPICE LAB 🍽️</h1>
+    <p class="slogan">Where Flavor Meets Your Soul</p>
+    
+    <div class="cart-status">
+        <div><strong>Your Cart:</strong> {{ cart.values()|sum }} item(s) selected</div>
+        <div>
+            <a href="/checkout"><button class="btn" style="background-color: #0275d8; width: auto;">Go to Checkout 🛒</button></a>
+            <a href="/clear_cart" style="color: #666; margin-left: 10px; font-size: 0.9em; text-decoration: none;">Clear Cart</a>
+        </div>
+    </div>
+
+    <div class="menu-container">
+        {% for category, items in menu.items() %}
+        <div class="category-header">
+            <h2>🔹 {{ category }} 🔹</h2>
+        </div>
+            {% for dish, price in items.items() %}
+            <div class="menu-card">
+                <h3>{{ dish }}</h3>
+                <p class="price">₹{{ "%.2f"|format(price) }}</p>
+                <form action="/add_to_cart/{{ dish }}" method="POST">
+                    <button type="submit" class="btn">Add to Order</button>
+                </form>
+            </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+</body>
+</html>
